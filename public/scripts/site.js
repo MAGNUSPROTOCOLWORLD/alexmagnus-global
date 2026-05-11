@@ -18,6 +18,8 @@
 	    og: "/assets/magnus-founder-banner-6x3.jpeg"
 	  };
 
+  const siteOrigin = "https://alexmagnus.global";
+
 	  const assetMeta = {
 	    [assets.cosmicBg]: { width: 3838, height: 2160 },
 	    [assets.logo1]: { width: 1024, height: 1024 },
@@ -70,25 +72,25 @@
     home: {
       title: "AlexMagnus.global | Magnus Protocol",
       description:
-        "The cinematic editorial home of Alex Magnus, creator of Magnus Protocol: technology, consciousness, digital sovereignty, truth, and human evolution.",
+        "Official home of Alex Magnus, creator of Magnus Protocol: a cinematic global platform for digital sovereignty, conscious technology, truth, and human evolution.",
       type: "website"
     },
     articles: {
-      title: "Articles | AlexMagnus.global",
+      title: "Articles | Alex Magnus on Magnus Protocol & Conscious Technology",
       description:
-        "Premium long-form articles by Alex Magnus on Magnus Protocol, digital sovereignty, consciousness, cosmic truth, and human evolution.",
-      type: "article"
+        "Premium long-form articles by Alex Magnus on Magnus Protocol, digital sovereignty, consciousness, cosmic truth, ethical technology, and human evolution.",
+      type: "website"
     },
     matrix: {
-      title: "Matrix Perfect | AlexMagnus.global",
+      title: "Matrix Perfect | Alex Magnus Vision for Conscious Civilization",
       description:
-        "Matrix Perfect is the vision of Alex Magnus for conscious civilization, ethical intelligence, equality, freedom, love, technology, and humanity in balance.",
+        "Matrix Perfect is the Alex Magnus vision for conscious civilization, ethical intelligence, equality, freedom, love, technology, and humanity in balance.",
       type: "website"
     },
     "article-detail": {
-      title: "Article | AlexMagnus.global",
+      title: "Article | Alex Magnus & Magnus Protocol",
       description:
-        "A premium long-form article by Alex Magnus for Magnus Protocol.",
+        "A premium long-form article by Alex Magnus for Magnus Protocol, exploring digital sovereignty, consciousness, truth, technology, and human evolution.",
       type: "article"
     },
     admin: {
@@ -102,69 +104,69 @@
       type: "website"
     },
     "magnus-protocol": {
-      title: "Magnus Protocol | AlexMagnus.global",
+      title: "Magnus Protocol | Conscious Technology & Digital Sovereignty",
       description:
-        "Magnus Protocol is a futuristic philosophical and technological framework for conscious civilization, ethical intelligence, digital sovereignty, creativity, freedom, and human evolution.",
+        "Magnus Protocol is a premium global framework for digital sovereignty, ethical intelligence, truth, consciousness, creativity, and human evolution.",
       type: "website"
     },
     vision: {
-      title: "Vision | AlexMagnus.global",
+      title: "Vision | Magnus Protocol Future of Humanity",
       description:
-        "Magnus Protocol vision for a conscious future where technology, ethics, dignity, truth, freedom of thought, and humanity evolve together.",
+        "The Magnus Protocol vision for a conscious technological civilization guided by ethics, dignity, truth, freedom, creativity, and human evolution.",
       type: "website"
     },
     mission: {
-      title: "Mission | AlexMagnus.global",
+      title: "Mission | Magnus Protocol Global Civilization Platform",
       description:
-        "Magnus Protocol mission to help humanity transition into a conscious technological civilization guided by freedom, truth, ethics, intelligence, creativity, and dignity.",
+        "The mission of Magnus Protocol is to build systems, platforms, and movements for truth, transparency, digital freedom, dignity, and conscious technology.",
       type: "website"
     },
     pillars: {
-      title: "Core Pillars | AlexMagnus.global",
+      title: "Core Pillars | Magnus Protocol Principles",
       description:
-        "The core pillars of Magnus Protocol: principles for a conscious technological civilization.",
+        "Explore the core pillars of Magnus Protocol: digital sovereignty, ethical AI, truth, conscious evolution, freedom of thought, and collective intelligence.",
       type: "website"
     },
     movement: {
-      title: "Global Movement | AlexMagnus.global",
+      title: "Global Movement | Magnus Protocol",
       description:
         "Magnus Protocol as a global movement for conscious civilization, ethical intelligence, digital sovereignty, freedom of thought, creativity, and collective evolution.",
       type: "website"
     },
     "alex-magnus": {
-      title: "Alex Magnus — Creator & Founder of Magnus Protocol | AlexMagnus.global",
+      title: "Alex Magnus | Creator & Founder of Magnus Protocol",
       description:
-        "Alex Magnus, creator and founder of Magnus Protocol, exploring consciousness, technology, intelligence, ethics, humanity, and the future of civilization.",
+        "Alex Magnus is the creator and founder of Magnus Protocol, exploring consciousness, technology, intelligence, ethics, humanity, and the future of civilization.",
       type: "profile"
     },
     cosmic: {
-      title: "Cosmic Vision & Universal Intelligence | AlexMagnus.global",
+      title: "Cosmic Vision | Universal Intelligence & Consciousness",
       description:
-        "Magnus Protocol Cosmic Vision: a philosophical perspective on humanity, intelligent life, advanced civilizations, consciousness, and the vast structure of the universe.",
+        "A cinematic exploration of humanity, the universe, consciousness, advanced civilizations, cosmic intelligence, and the mysteries of existence.",
       type: "website"
     },
     ufologia: {
-      title: "Cosmic Vision & Universal Intelligence | AlexMagnus.global",
+      title: "Ufologia | Cosmic Vision & Universal Intelligence",
       description:
-        "Magnus Protocol Cosmic Vision: a philosophical perspective on humanity, intelligent life, advanced civilizations, consciousness, and the vast structure of the universe.",
+        "Ufologia by Alex Magnus and Magnus Protocol explores cosmic intelligence, advanced civilizations, consciousness, and humanity's place in the universe.",
       type: "website"
     },
     projects: {
-      title: "Global Platforms | AlexMagnus.global",
+      title: "Projects | AlexMagnus.global Platforms & Digital Movements",
       description:
-        "Systems, platforms, and conscious digital movements for a future where humanity, technology, truth, and purpose walk together.",
+        "Global platforms, intelligent systems, and conscious digital movements by AlexMagnus.global and Magnus Protocol for technology, truth, and human evolution.",
       type: "website"
     },
     about: {
-      title: "Alex Magnus — Creator & Founder of Magnus Protocol | AlexMagnus.global",
+      title: "About Alex Magnus | Founder of Magnus Protocol",
       description:
-        "Alex Magnus, creator and founder of Magnus Protocol, exploring consciousness, technology, intelligence, ethics, humanity, and the future of civilization.",
+        "Learn about Alex Magnus, founder of Magnus Protocol, and his work across consciousness, digital sovereignty, ethical technology, and human evolution.",
       type: "profile"
     },
     contact: {
-      title: "Contact | AlexMagnus.global",
+      title: "Contact | AlexMagnus.global Partnerships & Media",
       description:
-        "Strategic communication for Magnus Protocol and AlexMagnus.global: partnerships, media inquiries, research, technology initiatives, collaborations, and global movement connections.",
+        "Contact AlexMagnus.global for Magnus Protocol partnerships, media inquiries, research, technology initiatives, collaborations, and global movement connections.",
       type: "website"
     }
   };
@@ -2388,8 +2390,9 @@
   function upsertHreflangLinks(pageKey = currentPageKey) {
     document.head.querySelectorAll("link[data-i18n-hreflang]").forEach((link) => link.remove());
     const fileName = window.location.pathname.split("/").pop() || "index.html";
+    const path = fileName === "index.html" ? "/" : `/${fileName}`;
     languages.forEach((language) => {
-      const url = new URL(fileName, window.location.href);
+      const url = new URL(path, siteOrigin);
       url.searchParams.set("lang", language.code);
       const link = document.createElement("link");
       link.rel = "alternate";
@@ -2399,7 +2402,7 @@
       document.head.appendChild(link);
     });
 
-    const fallback = new URL(fileName, window.location.href);
+    const fallback = new URL(path, siteOrigin);
     const defaultLink = document.createElement("link");
     defaultLink.rel = "alternate";
     defaultLink.hreflang = "x-default";
@@ -2413,22 +2416,35 @@
     const activeArticle = key === "article-detail" ? articleFromLocation(new URLSearchParams(window.location.search).get("preview") === "1" && sessionStorage.getItem(adminSessionKey) === adminPasswordHash) : null;
     const title = activeArticle ? `${activeArticle.metaTitle || activeArticle.title} | AlexMagnus.global` : meta.title;
     const description = activeArticle ? activeArticle.metaDescription || activeArticle.excerpt || meta.description : meta.description;
-    const canonical = new URL(window.location.pathname.split("/").pop() || "index.html", window.location.href).href;
+    const fileName = window.location.pathname.split("/").pop() || "index.html";
+    const canonicalPath = key === "home" || fileName === "index.html" ? "/" : `/${fileName}`;
+    const canonical = new URL(canonicalPath, siteOrigin).href;
     const socialImage = activeArticle ? activeArticle.ogImage || activeArticle.image || assets.og : assets.og;
+    const socialImageUrl = new URL(socialImage, siteOrigin).href;
 
     document.title = title;
     upsertMeta("description", description);
-    upsertMeta("robots", key.startsWith("admin") ? "noindex,nofollow,noarchive" : "index,follow");
+    upsertMeta("robots", key.startsWith("admin") ? "noindex,nofollow,noarchive" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1");
     upsertMeta("theme-color", "#020205");
+    upsertMeta("author", "Alex Magnus");
+    upsertMeta("publisher", "Magnus Protocol");
+    upsertMeta("application-name", "AlexMagnus.global");
     upsertMeta("og:type", meta.type, true);
+    upsertMeta("og:site_name", "AlexMagnus.global", true);
+    upsertMeta("og:locale", "en_US", true);
     upsertMeta("og:title", title, true);
     upsertMeta("og:description", description, true);
     upsertMeta("og:url", canonical, true);
-    upsertMeta("og:image", new URL(socialImage, window.location.href).href, true);
+    upsertMeta("og:image", socialImageUrl, true);
+    upsertMeta("og:image:secure_url", socialImageUrl, true);
+    upsertMeta("og:image:alt", title, true);
     upsertMeta("twitter:card", "summary_large_image");
+    upsertMeta("twitter:site", "@AlexMagnus");
+    upsertMeta("twitter:creator", "@AlexMagnus");
     upsertMeta("twitter:title", title);
     upsertMeta("twitter:description", description);
-    upsertMeta("twitter:image", new URL(socialImage, window.location.href).href);
+    upsertMeta("twitter:image", socialImageUrl);
+    upsertMeta("twitter:image:alt", title);
     upsertLink("canonical", canonical);
     upsertJsonLd(key, title, description, canonical, activeArticle);
   }
@@ -2469,7 +2485,7 @@
       name: title,
       description,
       url: canonical,
-      image: new URL(assets.og, window.location.href).href,
+      image: new URL(assets.og, siteOrigin).href,
       publisher: {
         "@type": "Organization",
         name: "Magnus Protocol",
@@ -2479,7 +2495,7 @@
         },
         logo: {
           "@type": "ImageObject",
-          url: new URL(assets.logo3, window.location.href).href
+          url: new URL(assets.logo3, siteOrigin).href
         }
       }
     };
@@ -2489,7 +2505,7 @@
       base.headline = activeArticle ? activeArticle.title : title;
       base.datePublished = activeArticle ? activeArticle.date : "2026-05-10";
       base.articleSection = activeArticle ? activeArticle.category || "Magnus Protocol" : "Magnus Protocol";
-      base.image = new URL(activeArticle ? activeArticle.ogImage || activeArticle.image || assets.og : assets.og, window.location.href).href;
+      base.image = new URL(activeArticle ? activeArticle.ogImage || activeArticle.image || assets.og : assets.og, siteOrigin).href;
     }
 
     el.textContent = JSON.stringify(base);
