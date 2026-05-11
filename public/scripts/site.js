@@ -19,6 +19,7 @@
 	  };
 
   const siteOrigin = "https://alexmagnus.global";
+  const professionalEmail = "alexmagnus@alexmagnus.global";
 
 	  const assetMeta = {
 	    [assets.cosmicBg]: { width: 3838, height: 2160 },
@@ -1264,7 +1265,7 @@
           </div>
 
           <div class="contact-page__split">
-            <form class="contact-form reveal" data-contact-form action="mailto:alexmagnus@alexmagnus.global" method="post" enctype="text/plain">
+            <form class="contact-form reveal" data-contact-form action="mailto:${professionalEmail}" method="post" enctype="text/plain">
               <label>
                 <span>Full Name</span>
                 <input name="Full Name" type="text" autocomplete="name" required placeholder="Your name">
@@ -1291,8 +1292,8 @@
               </figure>
 
               <div class="contact-info-block">
-                <span>CONTACT</span>
-                <a href="mailto:alexmagnus@alexmagnus.global">alexmagnus@alexmagnus.global</a>
+                <span>PROFESSIONAL EMAIL</span>
+                <a href="mailto:${professionalEmail}">${professionalEmail}</a>
               </div>
 
               <div class="contact-info-block">
@@ -1318,7 +1319,7 @@
               </div>
 
               <div class="contact-social" aria-label="Social and identity links">
-                <a href="mailto:alexmagnus@alexmagnus.global" aria-label="Email Alex Magnus">@</a>
+                <a href="mailto:${professionalEmail}" aria-label="Email Alex Magnus">@</a>
                 <a href="index.html" aria-label="AlexMagnus.global">AG</a>
                 <a href="magnus-protocol.html" aria-label="Magnus Protocol">MP</a>
               </div>
@@ -1970,6 +1971,7 @@
     return `
       <footer class="site-footer">
         <p>&copy; 2026 Magnus Protocol — Created by Alex Magnus. All rights reserved.</p>
+        <a class="site-footer__email" href="mailto:${professionalEmail}">${professionalEmail}</a>
       </footer>
     `;
   }
@@ -2489,9 +2491,18 @@
       publisher: {
         "@type": "Organization",
         name: "Magnus Protocol",
+        email: professionalEmail,
         founder: {
           "@type": "Person",
-          name: "Alex Magnus"
+          name: "Alex Magnus",
+          email: professionalEmail
+        },
+        contactPoint: {
+          "@type": "ContactPoint",
+          email: professionalEmail,
+          contactType: "professional inquiries",
+          url: `${siteOrigin}/contact.html`,
+          availableLanguage: ["English", "Portuguese", "Spanish", "French", "German", "Italian", "Russian", "Japanese", "Chinese", "Arabic"]
         },
         logo: {
           "@type": "ImageObject",
@@ -2635,7 +2646,7 @@
         "",
         message
       ].join("\n");
-      const mailto = `mailto:alexmagnus@alexmagnus.global?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailto = `mailto:${professionalEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       const status = form.querySelector("[data-contact-status]");
       if (status) status.textContent = localizedUi("emailOpening");
       window.location.href = mailto;

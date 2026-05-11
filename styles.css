@@ -4080,6 +4080,22 @@ html[dir="rtl"] .movement-copy {
   text-align: center;
 }
 
+.site-footer__email {
+  margin-top: 0.7rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+.site-footer__email:hover,
+.site-footer__email:focus-visible {
+  color: var(--gold);
+  text-shadow: 0 0 16px rgba(248, 229, 165, 0.32);
+}
+
 	.reveal {
 	  opacity: 1;
 	  filter: none;
@@ -4443,6 +4459,12 @@ html[dir="rtl"] .movement-copy {
   }
 
   .site-footer p {
+    text-align: center;
+  }
+
+  .site-footer__email {
+    max-width: 100%;
+    overflow-wrap: anywhere;
     text-align: center;
   }
 }
