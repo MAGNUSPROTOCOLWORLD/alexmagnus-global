@@ -10,7 +10,7 @@
 	    logo3: "/assets/alex-logo-gold-3.jpg",
 	    profile: "/assets/alex-profile-main.jpg",
 	    signature: "/assets/alex-signature-blue.png",
-	    heroSignature: "/assets/alex-signature-white.jpeg",
+	    heroSignature: "/assets/alex-signature.png",
 	    protocolSeal: "/assets/magnus-protocol-footer-symbol-logo.png",
 	    founderBanner: "/assets/magnus-founder-banner-6x3.jpeg",
 	    matrix: "/assets/magnus-matrix-4.jpeg",
@@ -25,7 +25,7 @@
 	    [assets.logo3]: { width: 1024, height: 1024 },
 	    [assets.profile]: { width: 1086, height: 1448 },
 	    [assets.signature]: { width: 851, height: 625 },
-	    [assets.heroSignature]: { width: 1463, height: 1075 },
+	    [assets.heroSignature]: { width: 851, height: 625 },
 	    [assets.protocolSeal]: { width: 1254, height: 1254 },
 	    [assets.founderBanner]: { width: 1600, height: 800 },
 	    [assets.matrix]: { width: 1072, height: 960 },
@@ -788,15 +788,15 @@
     const safeSrc = assets.heroSignature;
     const meta = assetMeta[safeSrc] || {};
 
-    return `<span class="signature signature--hero" role="img" aria-label="Alex Magnus official founder signature"><img ${attrsToString({
+    return `<img ${attrsToString({
       src: safeSrc,
-      alt: "",
+      alt: "Alex Magnus official founder signature",
+      class: "signature signature--hero",
       width: meta.width,
       height: meta.height,
       loading: "eager",
-      decoding: "async",
-      "aria-hidden": "true"
-    })}></span>`;
+      decoding: "async"
+    })}>`;
   }
 
   function readArticles(includeDrafts = false) {
