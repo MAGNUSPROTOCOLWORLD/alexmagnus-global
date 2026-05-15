@@ -22,9 +22,9 @@
   const professionalEmail = "alexmagnus@alexmagnus.global";
   const visitorCounterConfig = {
     endpoint: window.MAGNUS_VISITOR_COUNTER_ENDPOINT || "",
-    countKey: "magnus.global.visitor.count.v1",
-    sessionKey: "magnus.global.visitor.session.v1",
-    seed: 0
+    countKey: "magnus.global.visitor.count.v2",
+    sessionKey: "magnus.global.visitor.session.v2",
+    seed: 500
   };
 
 	  const assetMeta = {
@@ -1998,7 +1998,7 @@
     return `
       <section class="visitor-counter reveal" aria-label="Global visitors">
         <span class="visitor-counter__label">GLOBAL VISITORS</span>
-        <strong class="visitor-counter__number" data-visitor-count aria-live="polite">0</strong>
+        <strong class="visitor-counter__number" data-visitor-count aria-live="polite">500</strong>
       </section>
     `;
   }
@@ -2020,8 +2020,13 @@
   }
 
   function storedVisitorCount() {
-    const value = Number(storageGet("localStorage", visitorCounterConfig.countKey));
-    return Number.isFinite(value) && value > visitorCounterConfig.seed ? value : visitorCounterConfig.seed;
+    const raw = storageGet("localStorage", visitorCounterConfig.countKey);
+    const value = Number(raw);
+    const hasStoredValue = raw !== null && Number.isFinite(value) && value >= visitorCounterConfig.seed;
+    return {
+      count: hasStoredValue ? value : visitorCounterConfig.seed,
+      hasStoredValue
+    };
   }
 
   function formatVisitorCount(value) {
@@ -2030,7 +2035,7 @@
 
   async function resolveVisitorCount() {
     const countedThisSession = storageGet("sessionStorage", visitorCounterConfig.sessionKey) === "counted";
-    let count = storedVisitorCount();
+    let { count, hasStoredValue } = storedVisitorCount();
 
     if (visitorCounterConfig.endpoint) {
       try {
@@ -2054,7 +2059,7 @@
     }
 
     if (!countedThisSession) {
-      count += 1;
+      if (hasStoredValue) count += 1;
       storageSet("localStorage", visitorCounterConfig.countKey, String(count));
       storageSet("sessionStorage", visitorCounterConfig.sessionKey, "counted");
     }
