@@ -4066,10 +4066,77 @@ html[dir="rtl"] .movement-copy {
   margin: 0 auto;
   display: grid;
   place-items: center;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
   padding: clamp(3.2rem, 6vw, 5.5rem) 1rem;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid rgba(248, 229, 165, 0.14);
   background: rgba(0, 0, 0, 0.74);
+}
+
+.visitor-counter {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 360px);
+  display: grid;
+  gap: 0.42rem;
+  place-items: center;
+  padding: clamp(0.95rem, 2.2vw, 1.28rem) clamp(1.15rem, 3vw, 1.7rem);
+  overflow: hidden;
+  border: 1px solid rgba(248, 229, 165, 0.24);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(24, 184, 255, 0.2), transparent 52%),
+    linear-gradient(135deg, rgba(248, 229, 165, 0.08), rgba(24, 184, 255, 0.04)),
+    rgba(4, 9, 14, 0.72);
+  box-shadow:
+    0 20px 58px rgba(0, 0, 0, 0.36),
+    0 0 30px rgba(24, 184, 255, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.visitor-counter::before {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(115deg, transparent 0 35%, rgba(248, 229, 165, 0.16), rgba(24, 184, 255, 0.18), transparent 64% 100%);
+  transform: translateX(-120%);
+  animation: spectral-scan 7.5s ease-in-out infinite;
+}
+
+.visitor-counter__label {
+  color: rgba(248, 229, 165, 0.82);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.visitor-counter__number {
+  color: transparent;
+  background: var(--gold-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(24, 184, 255, 0.16);
+  filter: drop-shadow(0 0 12px rgba(248, 229, 165, 0.14));
+}
+
+.site-footer .protocol-seal {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+
+.site-footer .protocol-seal figure {
+  width: clamp(62px, 8vw, 86px);
 }
 
 .site-footer p {

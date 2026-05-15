@@ -20,6 +20,12 @@
 
   const siteOrigin = "https://alexmagnus.global";
   const professionalEmail = "alexmagnus@alexmagnus.global";
+  const visitorCounterConfig = {
+    endpoint: window.MAGNUS_VISITOR_COUNTER_ENDPOINT || "",
+    countKey: "magnus.global.visitor.count.v1",
+    sessionKey: "magnus.global.visitor.session.v1",
+    seed: 0
+  };
 
 	  const assetMeta = {
 	    [assets.cosmicBg]: { width: 3838, height: 2160 },
@@ -1970,6 +1976,8 @@
   function footer() {
     return `
       <footer class="site-footer">
+        ${visitorCounter()}
+        ${protocolSeal()}
         <p>&copy; 2026 Magnus Protocol — Created by Alex Magnus. All rights reserved.</p>
         <a class="site-footer__email" href="mailto:${professionalEmail}">${professionalEmail}</a>
       </footer>
@@ -1984,6 +1992,102 @@
         </figure>
       </section>
     `;
+  }
+
+  function visitorCounter() {
+    return `
+      <section class="visitor-counter reveal" aria-label="Global visitors">
+        <span class="visitor-counter__label">GLOBAL VISITORS</span>
+        <strong class="visitor-counter__number" data-visitor-count aria-live="polite">0</strong>
+      </section>
+    `;
+  }
+
+  function storageGet(storeName, key) {
+    try {
+      return window[storeName].getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  function storageSet(storeName, key, value) {
+    try {
+      window[storeName].setItem(key, value);
+    } catch {
+      // Storage can be unavailable in strict privacy modes; the counter still renders safely.
+    }
+  }
+
+  function storedVisitorCount() {
+    const value = Number(storageGet("localStorage", visitorCounterConfig.countKey));
+    return Number.isFinite(value) && value > visitorCounterConfig.seed ? value : visitorCounterConfig.seed;
+  }
+
+  function formatVisitorCount(value) {
+    return new Intl.NumberFormat("en-US").format(Math.max(0, Math.round(value)));
+  }
+
+  async function resolveVisitorCount() {
+    const countedThisSession = storageGet("sessionStorage", visitorCounterConfig.sessionKey) === "counted";
+    let count = storedVisitorCount();
+
+    if (visitorCounterConfig.endpoint) {
+      try {
+        const response = await fetch(visitorCounterConfig.endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ countVisit: !countedThisSession })
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (Number.isFinite(Number(data.count))) {
+            count = Number(data.count);
+            storageSet("localStorage", visitorCounterConfig.countKey, String(count));
+          }
+          storageSet("sessionStorage", visitorCounterConfig.sessionKey, "counted");
+          return count;
+        }
+      } catch {
+        // Fall back to local tracking until a production database endpoint is connected.
+      }
+    }
+
+    if (!countedThisSession) {
+      count += 1;
+      storageSet("localStorage", visitorCounterConfig.countKey, String(count));
+      storageSet("sessionStorage", visitorCounterConfig.sessionKey, "counted");
+    }
+
+    return count;
+  }
+
+  function animateVisitorNumber(el, target) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      el.textContent = formatVisitorCount(target);
+      return;
+    }
+
+    const start = 0;
+    const duration = 1300;
+    const startedAt = performance.now();
+    const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const current = start + (target - start) * easeOut(progress);
+      el.textContent = formatVisitorCount(current);
+      if (progress < 1) window.requestAnimationFrame(tick);
+    };
+
+    window.requestAnimationFrame(tick);
+  }
+
+  function activateVisitorCounter() {
+    const counter = document.querySelector("[data-visitor-count]");
+    if (!counter) return;
+    resolveVisitorCount().then((count) => animateVisitorNumber(counter, count));
   }
 
   function normalizeLanguage(value) {
@@ -2592,6 +2696,7 @@
     activateAdminDashboard();
     activateContactForm();
     activateMatrixVisual();
+    activateVisitorCounter();
     scheduleImageWarmup();
     activateHashScroll();
     document.documentElement.classList.add("is-ready");
@@ -3264,6 +3369,8 @@
 	        </section>
 	      </main>
 	      <footer class="site-footer">
+	        ${visitorCounter()}
+	        ${protocolSeal()}
 	        <p>${currentTitle}</p>
 	      </footer>
 	    `;
@@ -3291,7 +3398,7 @@
 	                ? adminPage()
 	                : simplePage(key);
 
-	      app.innerHTML = `${header(key)}${content}${isAdminPage ? "" : protocolSeal()}${footer()}`;
+	      app.innerHTML = `${header(key)}${content}${isAdminPage ? "" : footer()}`;
 	    } catch (error) {
 	      console.error("AlexMagnus.global render fallback activated", error);
 	      app.innerHTML = fallbackPage(key);
